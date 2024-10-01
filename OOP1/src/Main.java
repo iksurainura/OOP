@@ -1,13 +1,18 @@
 import java.util.Random;
 
-class Alarm {
+
+class observer{
+    public  void update(int WaterLevel){
+    }
+}
+class Alarm extends observer {
     String alarmId;
 
     public Alarm(String alarmId) {
         this.alarmId = alarmId;
     }
 
-    public void TrigerAlarm(int WaterLevel) {
+    public void update(int WaterLevel) {
         if (WaterLevel >= 50) {
             System.out.println("Alarm " + alarmId + " ON");
         } else {
@@ -16,14 +21,14 @@ class Alarm {
     }
 }
 
-class Display {
-    public void showWaterLevel(int WaterLevel) {
+class Display extends observer{
+    public void update(int WaterLevel) {
         System.out.println("Water Level: " + WaterLevel);
     }
 }
 
-class SMSManager {
-    public void sendSma(int WaterLevel) {
+class SMSManager extends observer{
+    public void update(int WaterLevel) {
         System.out.println("Send SMS :" + WaterLevel);
     }
 }
@@ -77,12 +82,12 @@ class ControlPanel {
     }
 
     public void notifyObject() {
-        this.alarm.TrigerAlarm(WaterLevel);
-        this.smsManager.sendSma(WaterLevel);
-        this.display.showWaterLevel(WaterLevel);
+        this.alarm.update(WaterLevel);
+        this.smsManager.update(WaterLevel);
+        this.display.update(WaterLevel);
     }
 
-    public void setData(int waterLevel) {
+    public void update(int waterLevel) {
         if (this.WaterLevel != waterLevel) {
             this.WaterLevel=waterLevel;
             notifyObject();
@@ -99,7 +104,7 @@ class java {
         while (true){
             Random random= new Random();
             int randomNumber= random.nextInt(101);//between 1 to 100 numbers
-            controlPanel.setData(randomNumber);
+            controlPanel.update(randomNumber);
             try{
                 Thread.sleep(5000);
             }catch (Exception e){
