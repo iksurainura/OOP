@@ -1,116 +1,70 @@
-import java.util.Random;
+ class TestCylinder {
+    public static void main (String[] args) {
+        // Declare and allocate a new instance of cylinder
+        Cylinder c1 = new Cylinder();
+        System.out.println("Cylinder:"
+                + " radius=" + c1.getRadius()
+                + " height=" + c1.getHeight()
+                + " base area=" + c1.getArea()
+                + " volume=" + c1.getvolume());
 
+        // Declare and allocate a new instance of cylinder, specifying Height
+        Cylinder c2 = new Cylinder(5.0);
+        System.out.println("Cylinder:"
+                        + " radius=" + c2.getRadius()
+                        + " height=" + c2.getHeight()
+                        + " base area=" + c2.getArea()
+                        + " volume=" + c2.getvolume());
 
-class observer{
-    public  void update(int WaterLevel){
-    }
-}
-class Alarm extends observer {
-    String alarmId;
-
-    public Alarm(String alarmId) {
-        this.alarmId = alarmId;
-    }
-
-    public void update(int WaterLevel) {
-        if (WaterLevel >= 50) {
-            System.out.println("Alarm " + alarmId + " ON");
-        } else {
-            System.out.println("Alarm " + alarmId + " OFF");
-        }
-    }
-}
-
-class Display extends observer{
-    public void update(int WaterLevel) {
-        System.out.println("Water Level: " + WaterLevel);
-    }
-}
-
-class SMSManager extends observer{
-    public void update(int WaterLevel) {
-        System.out.println("Send SMS :" + WaterLevel);
+        // Declare and allocate a new instance of cylinder specifying radius and height
+        Cylinder c3 = new Cylinder(5.0, 10.0);
+        System.out.println("Cylinder:"
+                + " radius=" + c3.getRadius()
+                + " height=" + c3.getHeight()
+                + " base area=" + c3.getArea()
+                + " volume=" + c3.getvolume());
     }
 }
 
-class ControlPanel {
-    private Alarm alarm;
-    private Display display;
-    private SMSManager smsManager;
-    private int WaterLevel;
+class Cylinder extends Circle{
+    private double height;
+    public Cylinder(){}
 
-    public ControlPanel() {
+    public Cylinder(double radius, String colour, double height) {
+        super(radius, colour);
+        this.height = height;
     }
 
-    public ControlPanel(Alarm alarm, Display display, SMSManager smsManager, int waterLevel) {
-        this.alarm = alarm;
-        this.display = display;
-        this.smsManager = smsManager;
-        WaterLevel = waterLevel;
+    public Cylinder(double radius, double height) {
+        super(radius);
+        this.height = height;
     }
 
-    public Alarm getAlarm() {
-        return alarm;
+    public Cylinder(double height) {
+        this.height = height;
     }
 
-    public void setAlarm(Alarm alarm) {
-        this.alarm = alarm;
+    public double getHeight() {
+        return height;
     }
 
-    public Display getDisplay() {
-        return display;
+    public void setHeight(double height) {
+        this.height = height;
     }
-
-    public void setDisplay(Display display) {
-        this.display = display;
+    public double getvolume(){
+        return getArea()*height;
     }
-
-    public SMSManager getSmsManager() {
-        return smsManager;
-    }
-
-    public void setSmsManager(SMSManager smsManager) {
-        this.smsManager = smsManager;
-    }
-
-    public int getWaterLevel() {
-        return WaterLevel;
-    }
-
-    public void setWaterLevel(int waterLevel) {
-        WaterLevel = waterLevel;
-    }
-
-    public void notifyObject() {
-        this.alarm.update(WaterLevel);
-        this.smsManager.update(WaterLevel);
-        this.display.update(WaterLevel);
-    }
-
-    public void update(int waterLevel) {
-        if (this.WaterLevel != waterLevel) {
-            this.WaterLevel=waterLevel;
-            notifyObject();
-        }
+    
+    public double getArea(){
+        return Math.PI*getRadius()*2;
     }
 }
 
-class java {
+public class Main {
     public static void main(String[] args) {
-        ControlPanel controlPanel = new ControlPanel();
-        controlPanel.setAlarm(new Alarm("Alarm1"));
-        controlPanel.setDisplay(new Display());
-        controlPanel.setSmsManager(new SMSManager());
-        while (true){
-            Random random= new Random();
-            int randomNumber= random.nextInt(101);//between 1 to 100 numbers
-            controlPanel.update(randomNumber);
-            try{
-                Thread.sleep(5000);
-            }catch (Exception e){
-                System.out.println(e);
-            }
-            System.out.println("==============");
-        }
+        Cylinder cylinder=new Cylinder(3,"blue",5);
+        cylinder.getvolume();
+        System.out.println(cylinder.getArea());
+
     }
 }
